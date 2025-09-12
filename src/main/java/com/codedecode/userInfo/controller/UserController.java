@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -24,6 +26,16 @@ public class UserController {
     @GetMapping("/fetchUserById/{userId}")
     public ResponseEntity<UserDTO> fetchUserDetailsById(@PathVariable Integer userId) {
         return userService.fetchAUser(userId); // Status code will be 201
+    }
+
+    @GetMapping("/p/getall")
+    public List<ResponseEntity<UserDTO>> getAll() {
+        return userService.getAll();
+    }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity deleteUser(@PathVariable Integer userId) {
+        return userService.deleteUser(userId);
     }
 
 }

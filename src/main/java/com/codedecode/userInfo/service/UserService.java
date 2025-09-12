@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +33,25 @@ public class UserService {
         }
 
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    public List<ResponseEntity<UserDTO>> getAll() {
+//        return new ResponseEntity<>(UserMapper.INSTANCE.mapUserToUserDTO(userRepo.getAll(), HttpStatus.OK);
+        List<User> result = userRepo.getAll();
+        List<ResponseEntity<UserDTO>> resulted = new ArrayList<>();
+        for (int i=0;i<result.size();i++) {
+            resulted.add(new ResponseEntity<>(UserMapper.INSTANCE.mapUserToUserDTO(result.get(i)), HttpStatus.OK));
+        }
+        return resulted;
+    }
+
+    public ResponseEntity deleteUser(Integer userId) {
+        try {
+            userRepo.deleteById(userId);
+        } catch (Error e) {
+            return new ResponseEntity<>(false, HttpStatus.EXPECTATION_FAILED);
+        }
+
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
