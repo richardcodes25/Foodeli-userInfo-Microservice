@@ -16,6 +16,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDTO> fetchUserDetailsById(@PathVariable Integer userId) {
+        return userService.fetchAUser(userId); // Status code will be 201
+    }
+
     // Add user to database
     @PostMapping("/addUser")
     public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userDTO) {
@@ -23,17 +28,12 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED); // Status code will be 201
     }
 
-    @GetMapping("/fetchUserById/{userId}")
-    public ResponseEntity<UserDTO> fetchUserDetailsById(@PathVariable Integer userId) {
-        return userService.fetchAUser(userId); // Status code will be 201
-    }
-
     @GetMapping("/p/getall")
     public List<ResponseEntity<UserDTO>> getAll() {
         return userService.getAll();
     }
 
-    @DeleteMapping("/deleteUser/{userId}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable Integer userId) {
         return userService.deleteUser(userId);
     }

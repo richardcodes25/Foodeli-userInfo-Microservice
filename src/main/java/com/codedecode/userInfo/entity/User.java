@@ -10,24 +10,56 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(
+        name="userdb",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "firebase_uid"),
+                @UniqueConstraint(columnNames = "email"),
+                @UniqueConstraint(columnNames = "user_name")
+        }
+)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userId;
+    @Column(name = "id", nullable = false, updatable = false)
+    private int id;
+
+    // Firebase Auth UID (source of truth for identity)
+    @Column(name = "firebase_uid", nullable = false, updatable = false)
+    private String firebaseUid;
+
+    @Column(name = "user_name", nullable = false)
     private String userName;
-    private String userPassword;
+//    private String userPassword;
+
+    @Column(nullable = false)
     private String email;
 
-    // user's Address to delivery food there
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column
+    private String phone;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    @Column(length = 500)
+    private String bio;
+
+    // Delivery address
+    @Column
     private String address;
+
+    @Column
     private String city;
 
     @Column(nullable = false, columnDefinition = "INT DEFAULT 1")
     // 1 = normal user, 2 = restaurant owner, 3 = admin
     private int role;
 
-    @Column(nullable = false, columnDefinition = "CHAR(10) DEFAULT en")
+    @Column(name = "preferred_language", length = 10, nullable = false)
     private String preferred_language;
 
 }

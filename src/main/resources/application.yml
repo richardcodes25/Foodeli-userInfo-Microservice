@@ -3,7 +3,8 @@ server:
 
 spring:
   profiles:
-    active: local
+    active: dev
+  #    active: local
   application:
     name: USER-SERVICE
   datasource:
